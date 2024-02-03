@@ -4,7 +4,6 @@ import {
   FakeHttpService,
   randomCity,
 } from '../../data-access/fake-http.service';
-import { CardType } from '../../model/card.model';
 import { City } from '../../model/city.model';
 import { CardListItemDirective } from '../../ui/card/card-list-item.directive';
 import { CardComponent } from '../../ui/card/card.component';
@@ -16,15 +15,13 @@ import { ListItemComponent } from '../../ui/list-item/list-item.component';
     <app-card
       [list]="cities"
       (addNewItem)="addNewCity()"
-      [type]="cardType"
-      customClass="bg-light-green">
+      class="bg-light-green">
       <img card-header src="assets/img/city.png" width="200px" />
 
       <ng-template card-list-item let-city>
-        <app-list-item
-          [name]="city.name"
-          [id]="city.id"
-          (deleted)="deleteCity($event)"></app-list-item>
+        <app-list-item [id]="city.id" (deleted)="deleteCity($event)">
+          {{ city.name }}
+        </app-list-item>
       </ng-template>
     </app-card>
   `,
@@ -33,7 +30,6 @@ import { ListItemComponent } from '../../ui/list-item/list-item.component';
 })
 export class CityCardComponent implements OnInit {
   cities: City[] = [];
-  cardType = CardType.CITY;
 
   constructor(
     private http: FakeHttpService,
