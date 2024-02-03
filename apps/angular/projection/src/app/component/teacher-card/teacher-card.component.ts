@@ -4,7 +4,6 @@ import {
   randTeacher,
 } from '../../data-access/fake-http.service';
 import { TeacherStore } from '../../data-access/teacher.store';
-import { CardType } from '../../model/card.model';
 import { Teacher } from '../../model/teacher.model';
 import { CardListItemDirective } from '../../ui/card/card-list-item.directive';
 import { CardComponent } from '../../ui/card/card.component';
@@ -15,22 +14,20 @@ import { ListItemComponent } from '../../ui/list-item/list-item.component';
   template: `
     <app-card
       [list]="teachers"
-      [type]="cardType"
       (addNewItem)="addNewTeacher()"
-      customClass="bg-light-red">
+      class="bg-light-red">
       <img card-header src="assets/img/teacher.png" width="200px" />
 
       <ng-template card-list-item let-teacher>
-        <app-list-item
-          [name]="teacher.firstName"
-          [id]="teacher.id"
-          (deleted)="deleteTeacher($event)"></app-list-item>
+        <app-list-item [id]="teacher.id" (deleted)="deleteTeacher($event)">
+          {{ teacher.firstName }}
+        </app-list-item>
       </ng-template>
     </app-card>
   `,
   styles: [
     `
-      ::ng-deep .bg-light-red {
+      .bg-light-red {
         background-color: rgba(250, 0, 0, 0.1);
       }
     `,
@@ -40,7 +37,6 @@ import { ListItemComponent } from '../../ui/list-item/list-item.component';
 })
 export class TeacherCardComponent implements OnInit {
   teachers: Teacher[] = [];
-  cardType = CardType.TEACHER;
 
   constructor(
     private http: FakeHttpService,
